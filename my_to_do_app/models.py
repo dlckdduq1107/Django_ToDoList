@@ -6,4 +6,6 @@ from django.db import models
 
 class Todo(models.Model):
     content = models.CharField(max_length=255)#데이터 형태가 CharField이고 최대길이가 255
+    isDone = models.BooleanField(default=False)
+
 

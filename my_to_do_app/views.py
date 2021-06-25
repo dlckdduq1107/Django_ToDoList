@@ -1,3 +1,4 @@
+from typing import Text
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -16,10 +17,18 @@ def createTodo(request): # 데이터 생성
     return HttpResponseRedirect(reverse('index'))
     # return HttpResponse("execute create =>" +user_input_str)
 
-def doneTodo(request):# 데이터 삭제 함수
+def deleteTodo(request):# 데이터 삭제 함수
     done_todo_id = request.GET['todoNum'] # todoNum이라는 id를 보고 GET받아옴
     print("완료한 todo의 id ", done_todo_id)
     todo = Todo.objects.get(id=done_todo_id) # 데이터베이스에서 해당 id에 해당하는 값 가져옴
     todo.delete() # 데이터 삭제
+    return HttpResponseRedirect(reverse('index'))
+    
+def doneTodo(request):# 데이터 숨김 함수
+    done_todo_id = request.GET['todoNum'] # todoNum이라는 id를 보고 GET받아옴
+    print("완료한 todo의 id ", done_todo_id)
+    todo = Todo.objects.get(id=done_todo_id) # 데이터베이스에서 해당 id에 해당하는 값 가져옴
+    todo.isDone = True # 데이터 숨김 플래그
+    todo.save()
     return HttpResponseRedirect(reverse('index'))
     
